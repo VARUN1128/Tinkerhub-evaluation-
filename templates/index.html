@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TinkerHub Campus Lead Evaluator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-indigo-600 mb-2">TinkerHub Campus Lead Evaluator</h1>
+            <p class="text-gray-600">Evaluate campus lead applications with AI assistance</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Application Form -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-semibold mb-4">Application Details</h2>
+                
+                <!-- Paste Data Section -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Paste Application Data</label>
+                    <textarea id="pasteData" rows="5" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Paste the entire application data here..."></textarea>
+                    <button id="parseData" class="mt-2 w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        Parse Data
+                    </button>
+                </div>
+
+                <form id="applicationForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Current Year</label>
+                        <select name="current_year" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <option value="Year 1">Year 1</option>
+                            <option value="Year 2">Year 2</option>
+                            <option value="Year 3">Year 3</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Experience</label>
+                        <textarea name="experience" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Describe your relevant experience"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Vision for Campus Community</label>
+                        <textarea name="vision_for_campus_community" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Share your vision"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Challenges & Solutions</label>
+                        <textarea name="challenges_and_solutions" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Describe challenges and your solutions"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Belief in TinkerHub (1-5)</label>
+                        <input type="number" name="belief_in_tinkerhub" min="1" max="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Planned Programs</label>
+                        <textarea name="planned_programs" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Describe your planned programs"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Projects Completed</label>
+                        <textarea name="projects_completed" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="List your completed projects"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">How They Know TinkerHub</label>
+                        <input type="text" name="how_they_know_tinkerhub" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="e.g., WhatsApp">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Additional Information</label>
+                        <div class="flex items-center">
+                            <input type="checkbox" name="willing_to_travel" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                            <label class="ml-2 block text-sm text-gray-900">Willing to Travel</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" name="read_wiki" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                            <label class="ml-2 block text-sm text-gray-900">Read Wiki</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" name="agreement_to_not_lead_elsewhere" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                            <label class="ml-2 block text-sm text-gray-900">Agreement to Not Lead Elsewhere</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        Evaluate Application
+                    </button>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-semibold mb-4">Evaluation Results</h2>
+                <div id="results" class="space-y-6">
+                    <div class="text-center text-gray-500">
+                        Submit an application to see evaluation results
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to parse pasted data
+        document.getElementById('parseData').addEventListener('click', () => {
+            const pasteData = document.getElementById('pasteData').value;
+            if (!pasteData) return;
+
+            const fieldMap = {
+                'role': 'role',
+                'experience': 'experience',
+                'current year': 'current_year',
+                'vision for campus community': 'vision_for_campus_community',
+                'challenges & solutions': 'challenges_and_solutions',
+                'challenges and solutions': 'challenges_and_solutions',
+                'belief in tinkerhub': 'belief_in_tinkerhub',
+                'planned programs': 'planned_programs',
+                'projects completed': 'projects_completed',
+                'how they know tinkerhub': 'how_they_know_tinkerhub',
+                'willing to travel': 'willing_to_travel',
+                'read wiki': 'read_wiki',
+                'agreement to not lead elsewhere': 'agreement_to_not_lead_elsewhere'
+            };
+
+            const lines = pasteData.split('\n');
+            let currentField = null;
+            let buffer = '';
+            const parsed = {};
+
+            function saveBuffer() {
+                if (currentField && buffer.trim() !== '') {
+                    parsed[currentField] = buffer.trim();
+                }
+                buffer = '';
+            }
+
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trim();
+                if (line === '') continue;
+
+                const colonIdx = line.indexOf(':');
+                if (colonIdx !== -1) {
+                    saveBuffer();
+                    let key = line.slice(0, colonIdx).trim().toLowerCase();
+                    let value = line.slice(colonIdx + 1).trim();
+                    if (fieldMap[key]) {
+                        currentField = fieldMap[key];
+                        buffer = value;
+                    } else {
+                        currentField = null;
+                    }
+                } else {
+                    let key = line.toLowerCase();
+                    if (fieldMap[key]) {
+                        saveBuffer();
+                        currentField = fieldMap[key];
+                        buffer = '';
+                    } else if (currentField) {
+                        buffer += (buffer ? '\n' : '') + line;
+                    }
+                }
+            }
+            saveBuffer();
+
+            // Debug: Show what was parsed
+            console.log('Parsed fields:', parsed);
+
+            Object.entries(parsed).forEach(([field, value]) => {
+                const formField = document.querySelector(`[name="${field}"]`);
+                if (formField) {
+                    if (formField.type === 'checkbox') {
+                        formField.checked = ['yes', 'true', 'on', '1'].includes(value.trim().toLowerCase());
+                    } else {
+                        formField.value = value;
+                    }
+                } else {
+                    // Debug: Field not found
+                    console.log('Field not found in form:', field, 'with value:', value);
+                }
+            });
+
+            alert('Data parsed successfully! Please review the form and click "Evaluate Application" to proceed.');
+        });
+
+        // Original form submission handler
+        document.getElementById('applicationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const application = {
+                role: "Student",
+                current_year: formData.get('current_year'),
+                experience: formData.get('experience'),
+                vision_for_campus_community: formData.get('vision_for_campus_community'),
+                challenges_and_solutions: formData.get('challenges_and_solutions'),
+                belief_in_tinkerhub: parseInt(formData.get('belief_in_tinkerhub')),
+                planned_programs: formData.get('planned_programs'),
+                projects_completed: formData.get('projects_completed'),
+                how_they_know_tinkerhub: formData.get('how_they_know_tinkerhub'),
+                willing_to_travel: document.querySelector('[name="willing_to_travel"]').checked ? 'Yes' : 'No',
+                read_wiki: document.querySelector('[name="read_wiki"]').checked ? 'Yes' : 'No',
+                agreement_to_not_lead_elsewhere: document.querySelector('[name="agreement_to_not_lead_elsewhere"]').checked ? 'Yes' : 'No'
+            };
+
+            try {
+                const response = await fetch('/evaluate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(application)
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('results').innerHTML = `
+                        <div class="space-y-4">
+                            <div class="text-center">
+                                <span class="text-4xl font-bold ${getScoreColor(result['Your Score (1-10)'])}">
+                                    ${result['Your Score (1-10)']}
+                                </span>
+                                <p class="text-sm text-gray-500">Your Score (1-10)</p>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-700">Positive Feedback</h3>
+                                <p class="mt-1 text-gray-600">${result['Positive Feedback']}</p>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-700">Areas of Concern</h3>
+                                <p class="mt-1 text-gray-600">${result['Areas of Concern']}</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(result.error || 'Evaluation failed');
+                }
+            } catch (error) {
+                document.getElementById('results').innerHTML = `
+                    <div class="text-red-600">
+                        Error: ${error.message}
+                    </div>
+                `;
+            }
+        });
+
+        function getScoreColor(score) {
+            if (score >= 9) return 'text-green-600';
+            if (score >= 7) return 'text-blue-600';
+            if (score >= 4) return 'text-yellow-600';
+            return 'text-red-600';
+        }
+    </script>
+</body>
+</html> 
