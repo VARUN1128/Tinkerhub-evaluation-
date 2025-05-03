@@ -23,7 +23,7 @@ class TinkerHubEvaluator:
             score += 1
             positives.append("willingness to travel")
         else:
-            concerns.append("Not willing to travel; may miss key events.")
+            concerns.append("Not willing to travel; may miss key events and in-person opportunities.")
 
         # Read Wiki
         read_wiki = self._is_yes(application['read_wiki'])
@@ -31,14 +31,14 @@ class TinkerHubEvaluator:
             score += 1
             positives.append("thorough preparation (read wiki)")
         else:
-            concerns.append("Has not read the wiki; may lack context.")
+            concerns.append("Has not read the TinkerHub wiki; may lack important context about the organization and its mission.")
 
         # Agreement to not lead elsewhere
         agreement = self._is_yes(application['agreement_to_not_lead_elsewhere'])
         if agreement:
             score += 1
         else:
-            concerns.append("Did not agree to not lead elsewhere.")
+            concerns.append("Did not agree to not lead elsewhere; may have conflicting commitments.")
 
         # Belief in TinkerHub
         belief = int(application['belief_in_tinkerhub'])
@@ -47,7 +47,7 @@ class TinkerHubEvaluator:
             positives.append("strong belief in TinkerHub's mission")
         elif belief >= 2:
             score += 0.5
-            concerns.append("Could show stronger belief in TinkerHub.")
+            concerns.append("Belief in TinkerHub's mission is not strong; consider reflecting more on the mission and values.")
         else:
             concerns.append("Low belief in TinkerHub's mission.")
 
@@ -63,7 +63,7 @@ class TinkerHubEvaluator:
             positives.append("clear leadership and ownership of initiatives")
         elif leadership_score == 1:
             score += 1
-            concerns.append("Some leadership, but could be clearer.")
+            concerns.append("Some leadership shown, but could provide more concrete examples of taking initiative.")
         else:
             concerns.append("No clear evidence of leadership or ownership.")
 
@@ -79,7 +79,7 @@ class TinkerHubEvaluator:
             positives.append("community-first mindset")
         elif community_score == 1:
             score += 0.5
-            concerns.append("Could show more community focus.")
+            concerns.append("Some community focus, but could be more explicit about prioritizing collective growth.")
         else:
             concerns.append("No clear community-first focus.")
 
@@ -95,9 +95,9 @@ class TinkerHubEvaluator:
             positives.append("active in TinkerHub or similar initiatives")
         elif participation_score == 1:
             score += 0.5
-            concerns.append("Limited initiative participation.")
+            concerns.append("Limited initiative participation; more involvement would strengthen the application.")
         else:
-            concerns.append("No clear initiative participation.")
+            concerns.append("No clear participation in TinkerHub or similar initiatives; consider engaging in more programs or events.")
 
         # Vision and program ideas
         vision_len = len(application['vision_for_campus_community'].strip())
@@ -109,7 +109,7 @@ class TinkerHubEvaluator:
             score += 0.5
             concerns.append("Vision or program ideas could be more detailed.")
         else:
-            concerns.append("Vision and program ideas are too brief.")
+            concerns.append("Vision for campus community is too brief or lacks detail.")
 
         # One-year involvement (look for 'year', 'months', 'since', 'long', 'ongoing')
         involvement_keywords = ["year", "months", "since", "long", "ongoing"]
@@ -122,7 +122,7 @@ class TinkerHubEvaluator:
             score += 1
             positives.append("shows ongoing involvement")
         else:
-            concerns.append("No clear evidence of ongoing involvement.")
+            concerns.append("No clear evidence of ongoing or long-term involvement in tech or community activities.")
 
         # --- HARD CAPS for critical requirements ---
         if not read_wiki:
@@ -161,12 +161,10 @@ class TinkerHubEvaluator:
         else:
             positive_feedback = "Meets basic requirements."
 
-        if concerns:
-            area_of_concern = (
-                "Areas of concern: " + "; ".join([c[0].upper() + c[1:] for c in concerns])
-            )
-        else:
+        if not concerns:
             area_of_concern = "No major concerns identified."
+        else:
+            area_of_concern = "Areas of concern: " + " ".join(concerns)
 
         return score, positive_feedback, area_of_concern
 
